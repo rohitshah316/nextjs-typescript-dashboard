@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Analytics Dashbaord",
+  title: "Analytics Dashboard",
   description: "Dashboard built with Next.js and Typescript",
 };
 

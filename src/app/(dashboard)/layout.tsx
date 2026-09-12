@@ -1,3 +1,4 @@
+import { Navbar } from "@/components/layout/navbar";
 import Sidebar from "@/components/layout/sidebar";
 
 
@@ -7,8 +8,13 @@ export default function DashboardLayout({children,}:Readonly<{children:React.Rea
 
     return(
         <div className="flex min-h-screen">
+
             <Sidebar/>
+
+            <div className="flex flex-1 flex-col">
+            <Navbar/>
             <main className="flex-1">{children}</main>
+            </div>
         </div>
     )
 }
