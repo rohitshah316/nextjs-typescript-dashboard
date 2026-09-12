@@ -1,3 +1,4 @@
+import { RevenueChart } from "@/components/charts/revenue-chart";
 import StatsCard from "@/components/shared/stats-card";
 
 import { stats } from "@/data/dashboard";
@@ -24,7 +25,19 @@ export default function DashboardPage() {
             ))}
           </div>
 
+                <div className="rounded-xl border bg-white p-6">
+        <h2 className="text-lg font-semibold">
+          Revenue Overview
+        </h2>
 
+        <p className="mt-1 text-sm text-gray-500">
+          Monthly revenue for this year
+        </p>
+
+        <div className="mt-6">
+          <RevenueChart/>
+        </div>
+      </div>
         </main>
     )
 }
