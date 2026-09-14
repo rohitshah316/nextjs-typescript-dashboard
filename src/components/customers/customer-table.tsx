@@ -7,7 +7,7 @@ type CustomerStatusFilter= |"all"| CustomerStatus;
 import { Badge } from "@/components/ui/badge";
 import { DataTable } from "@/components/ui/data-table";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type {Customer} from '../../data/dashboard'
 
 type CustomerTableProps={
@@ -18,6 +18,11 @@ export function CustomerTable({customers}:CustomerTableProps){
 
     const [search,setSearch]=useState<string>("");
     const [status,setStatus]=useState<CustomerStatusFilter>("all");
+    const [page,setPage]=useState<number>(1);
+
+    const pageSize=2;
+
+   
 
     const filteredCustomers=customers.filter((customer)=>{
         const searchTerm=search.toLowerCase();
@@ -33,6 +38,17 @@ export function CustomerTable({customers}:CustomerTableProps){
     });
 
 
+     const totalPages=Math.ceil(filteredCustomers.length/pageSize);
+     const startIndex=(page-1)*pageSize;
+
+     const paginatedCustomers=filteredCustomers.slice(
+      startIndex,startIndex+pageSize
+     )
+
+
+     useEffect(()=>{
+      setPage(1)
+     },[search,status])
     const handleStatusChange=(
       e:React.ChangeEvent<HTMLSelectElement>
     )=>{
@@ -98,7 +114,7 @@ export function CustomerTable({customers}:CustomerTableProps){
   </thead>
 
   <tbody>
-    {filteredCustomers.map((customer) => (
+    {paginatedCustomers.map((customer) => (
       <tr
         key={customer.id}
         className="border-b last:border-b-0"
@@ -135,8 +151,47 @@ export function CustomerTable({customers}:CustomerTableProps){
     ))}
   </tbody>
 </DataTable>
-
 )}
+  {filteredCustomers.length>0 && (
+    <>
+    <div className="flex items-center gap-2 justify-center">
+  {Array.from({ length: totalPages }, (_, index) => {
+    const pageNumber = index + 1;
+
+    return (
+      <button
+        key={pageNumber}
+        onClick={() => setPage(pageNumber)}
+        className={` text-white px-2 mt-2 rounded-sm
+            ${pageNumber===page?'bg-green-600':'bg-black'}
+          `}
+      >
+        {pageNumber}
+      </button>
+    );
+  })}
+</div>
+
+<div className="flex items-center justify-between">
+  <button onClick={()=>setPage(prev=>prev-1)} 
+    disabled={page===1} 
+    className="border-2 rounded-2xl mt-2 py-2 px-2 bg-black text-white cursor-pointer"
+    >Previous</button>
+
+    <span>
+    Page {page} of {totalPages}
+  </span>
+
+  <button
+    onClick={() => setPage(prev=>prev + 1)}
+    disabled={page === totalPages} 
+    className="border-2 rounded-2xl mt-2 py-2 px-2 bg-black text-white cursor-pointer"
+  >
+    Next
+  </button>
+</div>
+    </>
+  )}
 
     
         </div>

@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { products } from "@/data/dashboard";
+import { ProductForm } from "./_components/product-form";
 
 
 
@@ -23,8 +24,7 @@ const ProductPage = () => {
 
             </div>
 
-            <Button>Add Product</Button>
-
+            <ProductForm/>
             <DataTable>
                 <thead>
                     <tr className="border-b bg-gray-50">
